@@ -1,0 +1,57 @@
+import React, { useState, useEffect } from 'react';
+import firebase from 'firebase/compat/app'; // Update the import statement    En estas lineas de codigo se importa el firebase en la app, en los componentes y se usan estados.
+import 'firebase/compat/auth'; // Update the import statement 
+
+import { initializeApp } from 'firebase/app';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCm4zzo3O_-4ilQwf74D1g9x8PoEul2WXo",
+    authDomain: "logingrupito15601-88e05.firebaseapp.com",
+    projectId: "logingrupito15601-88e05",
+    storageBucket: "logingrupito15601-88e05.appspot.com",      Este codigo se copio de la pagina del api del firebase para poder hacer el inicio de sesion.
+    messagingSenderId: "492005968667",
+    appId: "1:492005968667:web:f5c26eb1eff95baf8ae1be"
+  }; 
+  // Initialize Firebase 
+  const app = initializeApp(firebaseConfig);
+    
+  const Login = () => {
+    const [email, setEmail] = useState('');                                             Para inicio de sesion  la cuenta se pone el email y password. 
+    const [password, setPassword] = useState('');
+     
+    useEffect(() => {
+        // Inicializar Firebase solo una vez al cargar el componente 
+        if (!firebase.apps.legngth) {
+            initializeApp(firebaseConfig);
+    }
+}, []);
+
+const handleLogin = async () => {
+    try{
+        const response = await firebase.auth().signInWithEmailAndPassword(email, password);
+        alert('Bienvenido');
+        console.log('Inicio de sesion exitoso:', response.user);                                                            Tenemos dos casos si se agrego correctamente la cuenta y el password podra entrar
+        // Aquipuedes redirigir al usuario a otra  pagina o realizar acciones adicionales despues del inicio de sesion       en caso de que la ponga mal no podra aceder y le enviara un mensaje de inavlido.
+    } catch (error) { 
+        alert('Usuario y/o contraseña invalidos');
+        console.error('Error durante el inicio de sesion', error.message);
+        // Puedes manejar el error de inicio de sesion aqui
+
+    }
+    };
+
+return (
+    <div>
+        <h2>Login</h2>
+        <label>Email:</label>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <br />
+        <label>Password:</label>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <br />
+        <button onClick={handleLogin}>Login</button>
+</div>
+);
+};
+  
+export default Login; 
